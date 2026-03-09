@@ -1,0 +1,2 @@
+Tipo;Benford_Score_Real;Benford_Score_Falso;Dist_Bhattacharyya;Dist_Mahalanobis;Dist_Frobenius;Dist_Euclidiana;Dist_Wasserstein
+Diferenca_Base_Real_vs_Base_Falsa;0,08031887060433059;0,06968538249280792;2,093640711093359;0,08865274363154521;428750536629060,94;124724,20778575391;20270294,89824131

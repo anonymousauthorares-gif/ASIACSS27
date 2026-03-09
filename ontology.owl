@@ -1,0 +1,2321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TINILAU ontology — independent version
+
+  This file defines the core classes of the TINILAU ontology. 
+  Please adjust the xml:base and ontology IRI to your preferred domain
+  before using in a production environment.
+-->
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+  <!ENTITY dcterms "http://purl.org/dc/terms/" >
+  <!ENTITY tinilau "https://w3id.org/tinilau/ont#" >
+  <!ENTITY skos "http://www.w3.org/2004/02/skos/core#" >
+  <!ENTITY mitre "https://attack.mitre.org/techniques/" >
+  <!ENTITY stix "https://oasis-open.github.io/cti-documentation/stix/" >
+
+]>
+
+<rdf:RDF
+    xml:base="https://w3id.org/tinilau/ont"
+    xmlns:tinilau="https://w3id.org/tinilau/ont#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:dcterms="http://purl.org/dc/terms/">
+
+
+
+
+  <!-- ================================================================== -->
+  <!-- Ontology definition                                                 -->
+  <!-- ================================================================== -->
+  <owl:Ontology rdf:about="https://w3id.org/tinilau/ont">
+
+    <!-- Título e resumo (em dois idiomas é opcional, mas ajuda) -->
+    <dcterms:title xml:lang="en">TINILAU Ontology</dcterms:title>
+    <dcterms:title xml:lang="pt-BR">Ontologia TINILAU</dcterms:title>
+
+    <dcterms:description xml:lang="en">
+      Modular ontology for maritime operations, cybersecurity, autonomy (MASS), and compliance.
+    </dcterms:description>
+    <dcterms:description xml:lang="pt-BR">
+      Ontologia modular para operações marítimas, cibersegurança, autonomia (MASS) e conformidade.
+    </dcterms:description>
+
+    <!-- Versão humana e IRI da versão -->
+    <owl:versionInfo>0.1.0</owl:versionInfo>
+    <owl:versionIRI rdf:resource="https://w3id.org/tinilau/ont/0.1.0"/>
+
+    <!-- Datas (ISO 8601) -->
+    <dcterms:issued   rdf:datatype="&xsd;date">2025-10-08</dcterms:issued>
+    <dcterms:modified rdf:datatype="&xsd;date">2025-10-08</dcterms:modified>
+
+    <!-- Autores/Instituição -->
+    <dcterms:creator>Equipe TINILAU</dcterms:creator>
+    <dcterms:creator>Isadora Garcia Ferrão </dcterms:creator>
+    <dcterms:creator>David Espes </dcterms:creator>
+    <dcterms:publisher>Université de Bretagne Occidentale</dcterms:publisher>
+
+    <!-- Idiomas principais do conteúdo/rotulagem -->
+    <dcterms:language>en</dcterms:language>
+
+    <!-- Licença (URL oficial) -->
+    <dcterms:license rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
+    <dcterms:rights xml:lang="en">© 2025 TINILAU team - CC BY 4.0.</dcterms:rights>
+
+  </owl:Ontology>
+
+
+  <!--
+    Classes de nível superior: estas cinco raízes subdividem o universo
+    de discurso. Elas estendem owl:Thing e são pais de outros módulos.
+  -->
+  <owl:Class rdf:about="&tinilau;TL_ConceptualType">
+    <rdfs:label>TL_ConceptualType</rdfs:label>
+    <rdfs:comment>Tipo conceitual abstrato: representa classes e categorias de objetos, eventos, etc.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_InformationResource">
+    <rdfs:label>TL_InformationResource</rdfs:label>
+    <rdfs:comment>Recursos informacionais: documentos, conjuntos de dados, normas e artefatos digitais.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+  </owl:Class>
+
+  <!-- ====== Appellations / Expressões linguísticas ====== -->
+  <owl:Class rdf:about="&tinilau;TL_Appellation">
+    <rdfs:label>TL_Appellation</rdfs:label>
+    <rdfs:comment>Designação linguística que nomeia/identifica uma entidade.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Linguistic_Object"/>
+  </owl:Class>
+
+  <!-- mover TL_Title para ser subclasse de TL_Appellation -->
+  <owl:Class rdf:about="&tinilau;TL_Title">
+    <rdfs:label>TL_Title</rdfs:label>
+    <rdfs:comment>Título textual de um recurso.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Appellation"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Identifier">
+    <rdfs:label>TL_Identifier</rdfs:label>
+    <rdfs:comment>Identificador (código, número, URI) usado para referir uma entidade.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Appellation"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Place_Appellation">
+    <rdfs:label>TL_Place_Appellation</rdfs:label>
+    <rdfs:comment>Denominação que se aplica a um lugar.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Appellation"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Place_Name">
+    <rdfs:label>TL_Place_Name</rdfs:label>
+    <rdfs:comment>Nome próprio de um lugar (ex.: “Baía de Guanabara”).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Place_Appellation"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Spatial_Coordinate">
+    <rdfs:label>TL_Spatial_Coordinate</rdfs:label>
+    <rdfs:comment>Coordenada/tupla que exprime posição espacial.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Appellation"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Geometric_Place_Expression">
+    <rdfs:label>TL_Geometric_Place_Expression</rdfs:label>
+    <rdfs:comment>Expressão geométrica que descreve a extensão de um lugar (polígono, bbox, etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Spatial_Coordinate"/>
+  </owl:Class>
+
+  <!-- Conjunto de dados -->
+  <owl:Class rdf:about="&tinilau;TL_DataSet">
+    <rdfs:label>TL_DataSet</rdfs:label>
+    <rdfs:comment>Coleção estruturada de dados digitais.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <!-- Objeto digital genérico -->
+  <owl:Class rdf:about="&tinilau;TL_Digital_Object">
+    <rdfs:label>TL_Digital_Object</rdfs:label>
+    <rdfs:comment>Objeto informacional em formato digital (arquivo, registro, mídia).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <!-- Objeto linguístico -->
+  <owl:Class rdf:about="&tinilau;TL_Linguistic_Object">
+    <rdfs:label>TL_Linguistic_Object</rdfs:label>
+    <rdfs:comment>Conteúdo expresso em linguagem natural ou formal (texto, frase, corpus linguístico).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+
+  <!-- ====== Subclasses de Digital Object ====== -->
+  <owl:Class rdf:about="&tinilau;TL_Repository_Object">
+    <rdfs:label>TL_Repository_Object</rdfs:label>
+    <rdfs:comment>Objeto digital que representa/identifica um item em um repositório.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Object"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Software">
+    <rdfs:label>TL_Software</rdfs:label>
+    <rdfs:comment>Programa ou pacote executável; artefato informacional digital.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Object"/>
+  </owl:Class>
+
+  <!-- Publicação -->
+  <owl:Class rdf:about="&tinilau;TL_Publication">
+    <rdfs:label>TL_Publication</rdfs:label>
+    <rdfs:comment>Obra publicada em meio físico ou digital (artigo, livro, relatório).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <!-- Sistema de referência espacial -->
+  <owl:Class rdf:about="&tinilau;TL_Spatial_CRS">
+    <rdfs:label>TL_Spatial_CRS</rdfs:label>
+    <rdfs:comment>Sistema de referência espacial para coordenadas geográficas ou projetadas.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <!-- Imagem -->
+  <owl:Class rdf:about="&tinilau;TL_Image">
+    <rdfs:label>TL_Image</rdfs:label>
+    <rdfs:comment>Representação visual estática (fotografia, satélite, mapa raster).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <!-- Base de dados -->
+  <owl:Class rdf:about="&tinilau;TL_Database">
+    <rdfs:label>TL_Database</rdfs:label>
+    <rdfs:comment>Sistema de gerenciamento de coleções de dados inter-relacionados.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <!-- Direito/licença -->
+  <owl:Class rdf:about="&tinilau;TL_Right">
+    <rdfs:label>TL_Right</rdfs:label>
+    <rdfs:comment>Direito ou licença que regula o uso de recursos de informação.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_PhysicalEntity">
+    <rdfs:label>TL_PhysicalEntity</rdfs:label>
+    <rdfs:comment>Entidades físicas: objetos materiais, lugares e agentes.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+  </owl:Class>
+
+  <!-- Coleção de entidades físicas -->
+  <owl:Class rdf:about="&tinilau;TL_PhysicalCollection">
+    <rdfs:label>TL_PhysicalCollection</rdfs:label>
+    <rdfs:comment>Conjunto organizado de espécimes ou artefatos físicos preservados como grupo.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Process">
+    <rdfs:label>TL_Process</rdfs:label>
+    <rdfs:comment>Processos e eventos: atividades, eventos pontuais e medições.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Property">
+    <rdfs:label>TL_Property</rdfs:label>
+    <rdfs:comment>Propriedades e atributos: dimensões, avaliações, estados.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+  </owl:Class>
+
+  <!--
+    Subclasses de TL_ConceptualType: categorias para tipologias de eventos, objetos e propriedades.
+  -->
+  <owl:Class rdf:about="&tinilau;TL_Event_Type">
+    <rdfs:label>TL_Event_Type</rdfs:label>
+    <rdfs:comment>Categoria de eventos (conceito abstrato).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_ConceptualType"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Persistent_Type">
+    <rdfs:label>TL_Persistent_Type</rdfs:label>
+    <rdfs:comment>Categoria para tipos de entidades persistentes (coisas físicas, agentes).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_ConceptualType"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Conceptual_Object_Type">
+    <rdfs:label>TL_Conceptual_Object_Type</rdfs:label>
+    <rdfs:comment>Tipos de objetos conceituais (documentos, softwares, normas).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_ConceptualType"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Property_Type">
+    <rdfs:label>TL_Property_Type</rdfs:label>
+    <rdfs:comment>Tipo de propriedade (atributos medidos ou avaliados).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_ConceptualType"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Physical_Thing_Type">
+    <rdfs:label>TL_Physical_Thing_Type</rdfs:label>
+    <rdfs:comment>Tipo de entidade física (categorias de lugares, artefatos, agentes).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_ConceptualType"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Vessel">
+    <rdfs:label>TL_Vessel</rdfs:label>
+    <rdfs:comment>Maritime vessel (ship, boat, etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Artifact"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_PositionProvider">
+    <rdfs:label>TL_PositionProvider</rdfs:label>
+    <rdfs:comment>Entity or system that produced the AIS positional information.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_NavigationalStatus">
+    <rdfs:label>TL_NavigationalStatus</rdfs:label>
+    <rdfs:comment>Navigational status of a vessel as defined in AIS (under way, at anchor, etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Status"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_VesselName">
+    <rdfs:label>TL_VesselName</rdfs:label>
+    <rdfs:comment>Name of the vessel as used in AIS static data.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Appellation"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_PositionEvent">
+    <rdfs:label>TL_PositionEvent</rdfs:label>
+    <rdfs:comment>
+      AIS position event for a vessel, representing a single positional report
+      (time, coordinates, kinematic features, and associated metadata).
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Measurement_Event"/>
+  </owl:Class>
+
+<owl:Class rdf:about="&tinilau;FishingVessel">
+    <rdfs:label>Fishing Vessel</rdfs:label>
+    <rdfs:comment>Vessel used for catching fish.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vessel"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;CargoVessel">
+    <rdfs:label>Cargo Vessel</rdfs:label>
+    <rdfs:comment>Vessel designed to carry goods.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vessel"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;Tanker">
+    <rdfs:label>Tanker</rdfs:label>
+    <rdfs:comment>Vessel designed to transport liquids or gases in bulk.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_CargoVessel"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;PassengerVessel">
+    <rdfs:label>Passenger Vessel</rdfs:label>
+    <rdfs:comment>Vessel designed to carry passengers.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vessel"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;HighSpeedCraft">
+    <rdfs:label>High Speed Craft</rdfs:label>
+    <rdfs:comment>High speed vessel (HSC).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vessel"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;Tug">
+    <rdfs:label>Tug</rdfs:label>
+    <rdfs:comment>Tugboat used to maneuver other vessels.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vessel"/>
+  </owl:Class>
+
+  <!-- Dataproperties AIS vessel -->
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasMMSI">
+    <rdfs:label>MMSI</rdfs:label>
+    <rdfs:comment>Maritime Mobile Service Identity of a vessel.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range rdf:resource="&xsd;integer"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasMID">
+      <rdfs:label>MID</rdfs:label>
+      <rdfs:comment>Maritime Identification Digit identifying the vessel registration authority.</rdfs:comment>
+      <rdfs:seeAlso rdf:resource="https://fr.wikipedia.org/wiki/Maritime_Mobile_Service_Identity#MID_(Maritime_Identification_Digit)"/>
+      <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+      <rdfs:range rdf:resource="&xsd;integer"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasPositionInstant">
+      <rdfs:label>Position Instant</rdfs:label>
+      <rdfs:comment>Time instant when the vessel AIS position was recorded.</rdfs:comment>
+      <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+      <rdfs:range rdf:resource="&xsd;dateTime"/>
+  </owl:DatatypeProperty>
+
+  <owl:Class rdf:about="&tinilau;TL_ExactEarthProvider">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PositionProvider"/>
+    <rdfs:label>TL_ExactEarthProvider</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_SpireProvider">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PositionProvider"/>
+    <rdfs:label>TL_SpireProvider</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_MarineTrafficProvider">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PositionProvider"/>
+    <rdfs:label>TL_MarineTrafficProvider</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_DatalasticProvider">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PositionProvider"/>
+    <rdfs:label>TL_DatalasticProvider</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_UnseenLabsProvider">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PositionProvider"/>
+    <rdfs:label>TL_UnseenLabsProvider</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_UnknownAISProvider">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PositionProvider"/>
+    <rdfs:label>TL_UnknownAISProvider</rdfs:label>
+  </owl:Class>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasLatitude">
+    <rdfs:label>has latitude</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;double"/>
+    <rdfs:comment>Latitude of the AIS position in WGS84 format.</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasLongitude">
+    <rdfs:label>has longitude</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;double"/>
+    <rdfs:comment>Longitude of the AIS position in WGS84 format.</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasStaticInstant">
+    <rdfs:label>has static AIS instant</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range rdf:resource="&xsd;dateTime"/>
+    <rdfs:comment>The timestamp (UTC) when the vessel's static AIS data was sent.</rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasProviderInsertInstant">
+    <rdfs:label>provider insert instant</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;dateTime"/>
+    <rdfs:comment>
+      Timestamp when the AIS message was stored in the provider database.
+    </rdfs:comment>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasSpeedKnots">
+    <rdfs:label>has speed (knots)</rdfs:label>
+    <rdfs:comment>Instantaneous speed over ground in knots from AIS.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasCourseOverGroundDeg">
+    <rdfs:label>has course over ground (deg)</rdfs:label>
+    <rdfs:comment>Course over ground in degrees, as reported by AIS.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasRateOfTurnDegPerMin">
+    <rdfs:label>has rate of turn (deg/min)</rdfs:label>
+    <rdfs:comment>Rate of turn in degrees per minute, decoded from AIS ROT.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasHeadingDeg">
+    <rdfs:label>has heading (deg)</rdfs:label>
+    <rdfs:comment>Vessel heading in degrees, as reported by AIS.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasDraughtMeters">
+    <rdfs:label>has draught (m)</rdfs:label>
+    <rdfs:comment>Vessel draught in meters as reported in AIS static data.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasIMONumber">
+    <rdfs:label>has IMO number</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range  rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasCallSignLiteral">
+    <rdfs:label>has call sign literal</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range  rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasVesselTypeCode">
+    <rdfs:label>has vessel type code</rdfs:label>
+    <rdfs:comment>Numeric AIS vessel type code (0–99).</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range  rdf:resource="&xsd;integer"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasDeltaTimeMs">
+    <rdfs:label>has delta time (ms)</rdfs:label>
+    <rdfs:comment>
+      Time difference in milliseconds between this PositionEvent and the previous one for the same vessel.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;long"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasSpeedMS">
+    <rdfs:label>has speed (m/s)</rdfs:label>
+    <rdfs:comment>
+      Vessel speed in meters per second derived from consecutive PositionEvents.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasSpeed">
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasAccelerationMS2">
+    <rdfs:label>has acceleration (m/s²)</rdfs:label>
+    <rdfs:comment>
+      Linear acceleration in meters per second squared derived from consecutive PositionEvents.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasKinematicHeadingDeg">
+    <rdfs:label>has kinematic heading (deg)</rdfs:label>
+    <rdfs:comment>
+      Heading in degrees derived or smoothed using previous PositionEvents, distinct from raw AIS heading.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasRateOfTurnDegPerSec">
+    <rdfs:label>has rate of turn (deg/s)</rdfs:label>
+    <rdfs:comment>
+      Rate of turn in degrees per second derived from consecutive headings and timestamps.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;isStopped">
+    <rdfs:label>is stopped</rdfs:label>
+    <rdfs:comment>True if the vessel is considered stopped at this PositionEvent.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;boolean"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasStopGroup">
+    <rdfs:label>has stop group</rdfs:label>
+    <rdfs:comment>
+      Identifier of the stop cluster the PositionEvent belongs to. Same group = same stop period.
+    </rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;integer"/>
+  </owl:DatatypeProperty>
+
+  <owl:Class rdf:about="&tinilau;TL_StaticProvider">
+    <rdfs:label>TL_StaticAISProvider</rdfs:label>
+    <rdfs:comment>Entity responsible for providing static AIS metadata.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_CollectionType">
+    <rdfs:label>TL_CollectionType</rdfs:label>
+    <rdfs:comment>How the AIS position was collected (terrestrial, satellite, vessel, unknown).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Comprimento do navio -->
+  <owl:DatatypeProperty rdf:about="&tinilau;hasVesselLengthMeters">
+    <rdfs:label>has vessel length (m)</rdfs:label>
+    <rdfs:comment>Overall vessel length in meters.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <!-- Boca (largura) do navio -->
+  <owl:DatatypeProperty rdf:about="&tinilau;hasVesselWidthMeters">
+    <rdfs:label>has vessel width (m)</rdfs:label>
+    <rdfs:comment>Vessel beam/width in meters.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range rdf:resource="&xsd;double"/>
+  </owl:DatatypeProperty>
+
+  <!-- Destino reportado na mensagem AIS -->
+  <owl:DatatypeProperty rdf:about="&tinilau;hasDestinationLiteral">
+    <rdfs:label>has destination (literal)</rdfs:label>
+    <rdfs:comment>Free-text destination field from AIS message.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </owl:DatatypeProperty>
+
+  <!-- ETA para o destino -->
+  <owl:DatatypeProperty rdf:about="&tinilau;hasDestinationETA">
+    <rdfs:label>has destination ETA</rdfs:label>
+    <rdfs:comment>ETA to destination reported in AIS message.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&xsd;dateTime"/>
+  </owl:DatatypeProperty>
+
+
+  <!-- Properties vessel AIS -->
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasPositionProvider">
+    <rdfs:label>has position provider</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&tinilau;TL_PositionProvider"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasStaticProvider">
+    <rdfs:label>has static provider</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range rdf:resource="&tinilau;TL_StaticProvider"/>
+    <rdfs:comment>Provider of AIS static data of the vessel.</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasCollectionType">
+    <rdfs:label>has collection type</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range rdf:resource="&tinilau;TL_CollectionType"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasNavigationalStatus">
+    <rdfs:label>has navigational status</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_NavigationalStatus"/>
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:about="&tinilau;hasNavigationalStatusCode">
+    <rdfs:label>has navigational status code</rdfs:label>
+    <rdfs:comment>Numeric AIS navigational status code (0–15).</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PositionEvent"/>
+    <rdfs:range  rdf:resource="&xsd;integer"/>
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasVesselName">
+    <rdfs:label>has vessel name</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_VesselName"/>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasAppellation"/>
+  </owl:ObjectProperty>
+
+
+  <!-- ====================================== -->
+  <!-- EXTERNAL ALIGNMENT: MITRE & STIX -->
+  <!-- ====================================== -->
+
+  <!-- MITRE ATT&CK Technique T1486 -->
+  <owl:NamedIndividual rdf:about="https://attack.mitre.org/techniques/T1486/">
+    <rdf:type rdf:resource="&skos;Concept"/>
+    <rdfs:label xml:lang="en">T1486 – Data Encrypted for Impact</rdfs:label>
+    <skos:closeMatch rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="https://attack.mitre.org/techniques/T1556/">
+    <rdf:type rdf:resource="&skos;Concept"/>
+    <rdfs:label xml:lang="en">T1556 – Modify Authentication Process</rdfs:label>
+    <skos:closeMatch rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:NamedIndividual>
+
+
+  <!-- STIX Threat Actor APT28 -->
+  <owl:NamedIndividual rdf:about="https://cti.example.com/stix/identity--apt28">
+    <rdf:type rdf:resource="&tinilau;TL_Threat_Actor"/>
+    <rdfs:label xml:lang="en">APT28</rdfs:label>
+    <skos:closeMatch rdf:resource="https://attack.mitre.org/groups/G0007"/>
+  </owl:NamedIndividual>
+
+  <!-- STIX Malware Wannacry -->
+  <owl:NamedIndividual rdf:about="https://cti.example.com/stix/malware--wannacry">
+    <rdf:type rdf:resource="&tinilau;TL_Attack_Tool"/>
+    <rdfs:label xml:lang="en">WannaCry Ransomware</rdfs:label>
+    <skos:closeMatch rdf:resource="https://attack.mitre.org/software/S0366"/>
+  </owl:NamedIndividual>
+
+
+  <!-- Tipo de Agente (ator persistente) -->
+  <owl:Class rdf:about="&tinilau;TL_Actor_Type">
+    <rdfs:label>TL_Actor_Type</rdfs:label>
+    <rdfs:comment>
+      Categoria persistente para agentes (humanos, organizações, grupos), 
+      representando o papel/tipo que exercem no domínio marítimo.
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Persistent_Type"/>
+  </owl:Class>
+
+  <!-- Tipo de elemento biótico -->
+  <owl:Class rdf:about="&tinilau;TL_Biotic_Element_Type">
+    <rdfs:label>TL_Biotic_Element_Type</rdfs:label>
+    <rdfs:comment>Categoria de seres vivos ou componentes biológicos (ex.: peixe, planta marinha).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Physical_Thing_Type"/>
+  </owl:Class>
+
+  <!-- Tipo de equipamento -->
+  <owl:Class rdf:about="&tinilau;TL_Equipment_Type">
+    <rdfs:label>TL_Equipment_Type</rdfs:label>
+    <rdfs:comment>Categoria de equipamentos e dispositivos usados em atividades marítimas.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Physical_Thing_Type"/>
+  </owl:Class>
+
+  <!-- Tipo de elemento abiótico -->
+  <owl:Class rdf:about="&tinilau;TL_Abiotic_Element_Type">
+    <rdfs:label>TL_Abiotic_Element_Type</rdfs:label>
+    <rdfs:comment>Categoria de componentes físicos não vivos (ex.: gelo, areia, recifes rochosos).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Physical_Thing_Type"/>
+  </owl:Class>
+
+  <!-- Classificação taxonômica de elementos bióticos -->
+
+  <owl:Class rdf:about="&tinilau;TL_Kingdom_Type">
+    <rdfs:label>TL_Kingdom_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Reino (Animalia, Plantae, Fungi etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Phylum_Type">
+    <rdfs:label>TL_Phylum_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Filo.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_SubPhylum_Type">
+    <rdfs:label>TL_SubPhylum_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Subfilo.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_SuperClass_Type">
+    <rdfs:label>TL_SuperClass_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Superclasse.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Class_Type">
+    <rdfs:label>TL_Class_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Classe.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_SubClass_Type">
+    <rdfs:label>TL_SubClass_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Subclasse.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Order_Type">
+    <rdfs:label>TL_Order_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Ordem.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Family_Type">
+    <rdfs:label>TL_Family_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Família.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_SubFamily_Type">
+    <rdfs:label>TL_SubFamily_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Subfamília.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Genus_Type">
+    <rdfs:label>TL_Genus_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Gênero.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Species_Type">
+    <rdfs:label>TL_Species_Type</rdfs:label>
+    <rdfs:comment>Categoria taxonômica de Espécie.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <!-- Partes biológicas -->
+  <owl:Class rdf:about="&tinilau;TL_Biological_Part_Type">
+    <rdfs:label>TL_Biological_Part_Type</rdfs:label>
+    <rdfs:comment>Categoria de partes biológicas (ex.: tecido, órgão, nadadeira).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <!-- Tipos de animais marinhos -->
+  <owl:Class rdf:about="&tinilau;TL_Marine_Animal_Type">
+    <rdfs:label>TL_Marine_Animal_Type</rdfs:label>
+    <rdfs:comment>Categoria de animais marinhos (peixes, cetáceos, crustáceos etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element_Type"/>
+  </owl:Class>
+
+  <!-- Tipo de dado científico (ex.: série temporal oceanográfica, metadado de observação) -->
+  <owl:Class rdf:about="&tinilau;TL_Scientific_Data_Type">
+    <rdfs:label>TL_Scientific_Data_Type</rdfs:label>
+    <rdfs:comment>Categoria para dados científicos e seus conjuntos (p.ex., séries temporais, grades, metadados experimentais).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Tipo de objeto digital (classifica instâncias de TL_Digital_Object) -->
+  <owl:Class rdf:about="&tinilau;TL_Digital_Object_Type">
+    <rdfs:label>TL_Digital_Object_Type</rdfs:label>
+    <rdfs:comment>Categoria para objetos digitais (arquivo raster, vetor, vídeo, log, pacote de software, etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Tipo visual (classifica conteúdos visuais como mapas, imagens, diagramas) -->
+  <owl:Class rdf:about="&tinilau;TL_Visual_Type">
+    <rdfs:label>TL_Visual_Type</rdfs:label>
+    <rdfs:comment>Categoria para representações visuais (mapa temático, ortoimagem, diagrama, esquema).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Tipo de linguagem (sistemas linguísticos ou formais) -->
+  <owl:Class rdf:about="&tinilau;TL_Language_Type">
+    <rdfs:label>TL_Language_Type</rdfs:label>
+    <rdfs:comment>Categoria para línguas naturais e linguagens formais (pt-BR, en, WKT, GeoJSON, SQL, RDF).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Proposição -->
+  <owl:Class rdf:about="&tinilau;TL_Proposition_Type">
+    <rdfs:label>TL_Proposition_Type</rdfs:label>
+    <rdfs:comment>Afirmação ou enunciado que pode ser avaliado como verdadeiro ou falso.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Appellation (denominação, nome atribuído a algo) -->
+  <owl:Class rdf:about="&tinilau;TL_Appellation_Type">
+    <rdfs:label>TL_Appellation_Type</rdfs:label>
+    <rdfs:comment>Denominação atribuída a uma entidade, como um nome ou código identificador.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Unidade de medida -->
+  <owl:Class rdf:about="&tinilau;TL_Measurement_Unit_Type">
+    <rdfs:label>TL_Measurement_Unit_Type</rdfs:label>
+    <rdfs:comment>Unidade de medida padronizada (ex.: metro, segundo, tonelada).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Indicador estatístico -->
+  <owl:Class rdf:about="&tinilau;TL_Statistic_Indicator_Type">
+    <rdfs:label>TL_Statistic_Indicator_Type</rdfs:label>
+    <rdfs:comment>Indicador derivado de estatísticas agregadas (ex.: taxa de captura por unidade de esforço).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Design ou procedimento -->
+  <owl:Class rdf:about="&tinilau;TL_Design_or_Procedure_Type">
+    <rdfs:label>TL_Design_or_Procedure_Type</rdfs:label>
+    <rdfs:comment>Esquema, plano ou método que orienta como executar uma atividade ou processo.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- S-100 product family -->
+  <owl:Class rdf:about="&tinilau;TL_S100_Product">
+    <rdfs:label>TL_S100_Product</rdfs:label>
+    <rdfs:comment>Família de produtos IHO S-100 para e-navigation.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Scientific_Data_Type"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_S101_ENC">
+    <rdfs:label>TL_S101_ENC</rdfs:label>
+    <rdfs:comment>Electronic Navigational Chart (S-101).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_S100_Product"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_S102_Bathymetric_Surface">
+    <rdfs:label>TL_S102_Bathymetric_Surface</rdfs:label>
+    <rdfs:comment>Superfícies batimétricas (S-102).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_S100_Product"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_S104_Water_Level">
+    <rdfs:label>TL_S104_Water_Level</rdfs:label>
+    <rdfs:comment>Nível d’água e maré (S-104).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_S100_Product"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_S111_Surface_Currents">
+    <rdfs:label>TL_S111_Surface_Currents</rdfs:label>
+    <rdfs:comment>Correntes de superfície (S-111).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_S100_Product"/>
+  </owl:Class>
+
+
+  <!--
+    Subclasses de TL_InformationResource: cada uma para um tipo de recurso.
+  -->
+
+  <owl:Class rdf:about="&tinilau;TL_ContentCollection">
+    <rdfs:label>TL_ContentCollection</rdfs:label>
+    <rdfs:comment>Coleção de conteúdos digitais (banco de dados, corpora).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_NormativeArtifact">
+    <rdfs:label>TL_NormativeArtifact</rdfs:label>
+    <rdfs:comment>Artefato normativo: documento legal ou regulatório.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_InformationResource"/>
+  </owl:Class>
+
+  <!--
+    Subclasses de TL_PhysicalEntity: lugar, artefato e agente.
+  -->
+  <owl:Class rdf:about="&tinilau;TL_Place">
+    <rdfs:label>TL_Place</rdfs:label>
+    <rdfs:comment>Lugar físico: porto, área marítima, terminal.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <!-- ===== Cadeia: Objeto físico / Biológico ===== -->
+
+  <!-- Objeto físico discreto (indivíduo ou artefato natural) -->
+  <owl:Class rdf:about="&tinilau;TL_Physical_Object">
+    <rdfs:label>TL_Physical_Object</rdfs:label>
+    <rdfs:comment>Entidade física individual e discreta (natural ou construída).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <!-- Objeto biológico (organismo ou parte de organismo) -->
+  <owl:Class rdf:about="&tinilau;TL_Biological_Object">
+    <rdfs:label>TL_Biological_Object</rdfs:label>
+    <rdfs:comment>Organismo, parte de organismo ou material biológico reconhecido como objeto físico.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Physical_Object"/>
+  </owl:Class>
+
+  <!-- Elemento biótico (componente vivo do ambiente) -->
+  <owl:Class rdf:about="&tinilau;TL_Biotic_Element">
+    <rdfs:label>TL_Biotic_Element</rdfs:label>
+    <rdfs:comment>Componente vivo do ambiente (espécies, populações, indivíduos).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biological_Object"/>
+  </owl:Class>
+
+  <!-- Animal marinho (especialização de elemento biótico) -->
+  <owl:Class rdf:about="&tinilau;TL_Marine_Animal">
+    <rdfs:label>TL_Marine_Animal</rdfs:label>
+    <rdfs:comment>Organismo animal com ciclo de vida predominantemente marinho.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biotic_Element"/>
+  </owl:Class>
+
+  <!-- Espécime (amostra física de um objeto biológico) -->
+  <owl:Class rdf:about="&tinilau;TL_Specimen">
+    <rdfs:label>TL_Specimen</rdfs:label>
+    <rdfs:comment>Exemplar físico utilizado como amostra ou referência de um objeto biológico.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Biological_Object"/>
+  </owl:Class>
+
+  <!-- ===== Lugares físicos ===== -->
+  <!-- Área de água (mar, baía, zona marítima, etc.) -->
+  <owl:Class rdf:about="&tinilau;TL_Water_Area">
+    <rdfs:label>TL_Water_Area</rdfs:label>
+    <rdfs:comment>Tipo de lugar físico constituído predominantemente por massas de água (mar, baía, bacia, zona costeira).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Place"/>
+  </owl:Class>
+
+  <!-- ===== Entidades físicas ===== -->
+  <!-- Elemento abiótico (não vivo) do ambiente -->
+  <owl:Class rdf:about="&tinilau;TL_Abiotic_Element">
+    <rdfs:label>TL_Abiotic_Element</rdfs:label>
+    <rdfs:comment>Componente físico não vivo do ambiente (ex.: rocha, recife rochoso, banco de areia, gelo marinho).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <!-- (Opcional) Objeto natural explícito -->
+  <owl:Class rdf:about="&tinilau;TL_Natural_Object">
+    <rdfs:label>TL_Natural_Object</rdfs:label>
+    <rdfs:comment>Objeto físico de origem natural, distinto de artefatos.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+ <!-- TINILAU: Declarative Place -->
+  <owl:Class rdf:about="&tinilau;TL_Declarative_Place">
+    <rdfs:label xml:lang="en">TL_Declarative_Place</rdfs:label>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Place"/>
+    <rdfs:comment xml:lang="en">
+        A place whose extent/position is declared by a geometric or textual expression
+        (e.g., polygon, bounding box, coordinate list).
+    </rdfs:comment>
+  <rdfs:isDefinedBy rdf:resource="https://w3id.org/tinilau/ont"/>
+  </owl:Class>
+
+
+<owl:Class rdf:about="&tinilau;TL_Artifact">
+  <rdfs:label>TL_Artifact</rdfs:label>
+  <rdfs:comment>Artefato físico: embarcação, sensor, equipamento.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_ManMade_Thing"/>
+</owl:Class>
+
+<!-- Dispositivo digital: subclass de TL_Artifact -->
+<owl:Class rdf:about="&tinilau;TL_Digital_Device">
+  <rdfs:label>TL_Digital_Device</rdfs:label>
+  <rdfs:comment>
+    Dispositivo físico eletrônico usado para processar, armazenar ou transmitir informação digital
+    (por exemplo, computador de bordo, AIS transponder, boia inteligente).
+  </rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Artifact"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_ECDIS_System">
+  <rdfs:label>TL_ECDIS_System</rdfs:label>
+  <rdfs:comment>ECDIS a bordo (cartas S-101/S-100).</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Device"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_GNSS_Receiver">
+  <rdfs:label>TL_GNSS_Receiver</rdfs:label>
+  <rdfs:comment>Receptor GNSS (GPS/Galileo/GLONASS).</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Device"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_AIS_Transceiver">
+  <rdfs:label>TL_AIS_Transceiver</rdfs:label>
+  <rdfs:comment>Transceptor AIS classe A/B ou base.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Device"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_Marine_Radar">
+  <rdfs:label>TL_Marine_Radar</rdfs:label>
+  <rdfs:comment>Radar de navegação/ARPA.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Device"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_Satcom_Terminal">
+  <rdfs:label>TL_Satcom_Terminal</rdfs:label>
+  <rdfs:comment>Terminal satcom (Inmarsat/VSAT etc.).</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Device"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_Shipboard_Data_Server">
+  <rdfs:label>TL_Shipboard_Data_Server</rdfs:label>
+  <rdfs:comment>Servidor de dados embarcado conforme ISO 19847.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Device"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_Shipboard_Data_Model">
+  <rdfs:label>TL_Shipboard_Data_Model</rdfs:label>
+  <rdfs:comment>Modelo conceitual/ontologia de dados de máquinas (ISO 19848).</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_Machinery_Data_Record">
+  <rdfs:label>TL_Machinery_Data_Record</rdfs:label>
+  <rdfs:comment>Registro digital de sensor/sistema de máquinas (amostra de dados embarcados).</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_Digital_Object"/>
+</owl:Class>
+
+
+  <owl:Class rdf:about="&tinilau;TL_Agent">
+    <rdfs:label>TL_Agent</rdfs:label>
+    <rdfs:comment>Agente (humano ou organização).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <!-- Especializações de TL_Agent -->
+  <owl:Class rdf:about="&tinilau;TL_Person">
+    <rdfs:label>TL_Person</rdfs:label>
+    <rdfs:comment>Indivíduo humano que atua como agente (capitão, inspetor, pesquisador etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Agent"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Organization">
+    <rdfs:label>TL_Organization</rdfs:label>
+    <rdfs:comment>Entidade formal com identidade própria (empresa, autoridade portuária, ONG, universidade).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Agent"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Group">
+    <rdfs:label>TL_Group</rdfs:label>
+    <rdfs:comment>Coletivo não necessariamente formal (equipe de inspeção, grupo de pesquisa, tripulação).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Agent"/>
+  </owl:Class>
+
+  <!-- Coisas produzidas pela ação humana -->
+  <owl:Class rdf:about="&tinilau;TL_ManMade_Thing">
+    <rdfs:label>TL_ManMade_Thing</rdfs:label>
+    <rdfs:comment>Objeto ou estrutura criada intencionalmente por agentes humanos.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <!-- Estoque populacional -->
+  <owl:Class rdf:about="&tinilau;TL_Stock">
+    <rdfs:label>TL_Stock</rdfs:label>
+    <rdfs:comment>Conjunto de indivíduos que constitui uma população ou estoque reconhecível.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <!-- Quantidade de matéria -->
+  <owl:Class rdf:about="&tinilau;TL_Amount_of_Matter">
+    <rdfs:label>TL_Amount_of_Matter</rdfs:label>
+    <rdfs:comment>Porção de material ou substância, não individualizada em agentes ou artefatos.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <!-- (Opcional) propriedades de membresia -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasMember">
+    <rdfs:label>hasMember</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Agent"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Agent"/>
+    <rdfs:comment>Relação de composição entre agentes (organizações/grupos e seus membros).</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;memberOf">
+    <rdfs:label>memberOf</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Agent"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Agent"/>
+    <owl:inverseOf rdf:resource="&tinilau;hasMember"/>
+  </owl:ObjectProperty>
+
+  <owl:Class rdf:about="&tinilau;TL_Ecosystem">
+    <rdfs:label>TL_Ecosystem</rdfs:label>
+    <rdfs:comment>
+      Sistema ecológico composto por organismos, habitats e suas interações,
+      com extensão espacial identificável.
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Cargo">
+    <rdfs:label>TL_Cargo</rdfs:label>
+    <rdfs:comment>Conteúdo/mercadoria movimentada em operações portuárias.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Amount_of_Matter"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Containerized_Cargo">
+    <rdfs:label>TL_Containerized_Cargo</rdfs:label>
+    <rdfs:comment>Carga conteinerizada.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cargo"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Dry_Bulk_Cargo">
+    <rdfs:label>TL_Dry_Bulk_Cargo</rdfs:label>
+    <rdfs:comment>Granel sólido (minério, grãos etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cargo"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Liquid_Bulk_Cargo">
+    <rdfs:label>TL_Liquid_Bulk_Cargo</rdfs:label>
+    <rdfs:comment>Granel líquido (óleo, químicos).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cargo"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Break_Bulk_Cargo">
+    <rdfs:label>TL_Break_Bulk_Cargo</rdfs:label>
+    <rdfs:comment>Carga geral/solta (peças, big bags etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cargo"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_RoRo_Cargo">
+    <rdfs:label>TL_RoRo_Cargo</rdfs:label>
+    <rdfs:comment>Veículos/ro-ro.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cargo"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Dangerous_Cargo">
+    <rdfs:label>TL_Dangerous_Cargo</rdfs:label>
+    <rdfs:comment>Carga perigosa conforme IMDG Code.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cargo"/>
+  </owl:Class>
+
+  <!--
+    Subclasses de TL_Process: eventos, atividades, medições.
+  -->
+  <owl:Class rdf:about="&tinilau;TL_Event">
+    <rdfs:label>TL_Event</rdfs:label>
+    <rdfs:comment>Evento (ocorrência pontual no tempo).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Process"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Activity">
+    <rdfs:label>TL_Activity</rdfs:label>
+    <rdfs:comment>Atividade (processo com duração).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Process"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Measurement">
+    <rdfs:label>TL_Measurement</rdfs:label>
+    <rdfs:comment>Medição: processo de coleta de um valor ou observação.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Observation"/>
+  </owl:Class>
+
+  <!-- ============================================================= -->
+  <!-- TINILAU — especializações de TL_Process                      -->
+  <!-- ============================================================= -->
+
+  <!-- Atividade genérica de atribuição de atributos/relacionamentos -->
+  <owl:Class rdf:about="&tinilau;TL_Attribute_Assignment">
+    <rdfs:label>TL_Attribute_Assignment</rdfs:label>
+    <rdfs:comment>Atividade que registra uma afirmação sobre atributo ou relação de uma entidade.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Activity"/>
+  </owl:Class>
+
+  <!-- Observação científica (medições/testemunho de estados/ocorrências) -->
+  <owl:Class rdf:about="&tinilau;TL_Observation">
+    <rdfs:label>TL_Observation</rdfs:label>
+    <rdfs:comment>Observação de estados, comportamentos ou ocorrências em dado tempo e lugar.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attribute_Assignment"/>
+  </owl:Class>
+
+  <!-- Evento de encontro/detecção durante uma observação -->
+  <owl:Class rdf:about="&tinilau;TL_Encounter_Event">
+    <rdfs:label>TL_Encounter_Event</rdfs:label>
+    <rdfs:comment>Ocorrência em que algo é encontrado/detectado no curso de uma observação.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Observation"/>
+  </owl:Class>
+
+  <!-- Medição digital (especialização de medição) -->
+  <owl:Class rdf:about="&tinilau;TL_Digital_Measurement_Event">
+    <rdfs:label>TL_Digital_Measurement_Event</rdfs:label>
+    <rdfs:comment>Medição realizada por dispositivo digital que pode gerar um objeto digital como saída.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Measurement"/>
+  </owl:Class>
+
+  <!-- Atribuição/criação de identificadores -->
+  <owl:Class rdf:about="&tinilau;TL_Identifier_Assignment">
+    <rdfs:label>TL_Identifier_Assignment</rdfs:label>
+    <rdfs:comment>Atividade que atribui ou compõe um identificador para uma entidade.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attribute_Assignment"/>
+  </owl:Class>
+
+  <!-- Atribuições estatísticas globais de desembarque -->
+  <owl:Class rdf:about="&tinilau;TL_Global_Statistic_Landing">
+    <rdfs:label>TL_Global_Statistic_Landing</rdfs:label>
+    <rdfs:comment>Registro/atribuição de indicadores agregados de desembarque em escala global.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attribute_Assignment"/>
+  </owl:Class>
+
+  <!-- Período/atividade de uso de um nome/appellation -->
+  <owl:Class rdf:about="&tinilau;TL_Name_Use_Activity">
+    <rdfs:label>TL_Name_Use_Activity</rdfs:label>
+    <rdfs:comment>Período contínuo em que uma denominação específica é usada para uma entidade.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attribute_Assignment"/>
+  </owl:Class>
+
+  <!-- Execução de software/tarefa computacional -->
+  <owl:Class rdf:about="&tinilau;TL_Software_Execution">
+    <rdfs:label>TL_Software_Execution</rdfs:label>
+    <rdfs:comment>Execução de um programa ou procedimento computacional sobre um conteúdo digital.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Activity"/>
+  </owl:Class>
+
+  <!-- Atividade de captura/coleta (ex.: amostragem, pesca) -->
+  <owl:Class rdf:about="&tinilau;TL_Capture_Activity">
+    <rdfs:label>TL_Capture_Activity</rdfs:label>
+    <rdfs:comment>Atividade voltada à captura/detecção/coleta de itens de interesse.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Activity"/>
+  </owl:Class>
+
+  <!-- Formação de um estoque/população -->
+  <owl:Class rdf:about="&tinilau;TL_Stock_Formation">
+    <rdfs:label>TL_Stock_Formation</rdfs:label>
+    <rdfs:comment>Evento que estabelece a existência de um estoque/população com membros identificáveis.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Activity"/>
+  </owl:Class>
+
+  <!-- Remoção de matéria/indivíduos de um estoque -->
+  <owl:Class rdf:about="&tinilau;TL_Matter_Removal">
+    <rdfs:label>TL_Matter_Removal</rdfs:label>
+    <rdfs:comment>Atividade que remove uma quantidade de matéria/indivíduos de um estoque.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Activity"/>
+  </owl:Class>
+
+  <!--
+    Subclasses de TL_Property: estruturas para representar atributos e avaliações.
+  -->
+  <owl:Class rdf:about="&tinilau;TL_Time_Span">
+    <rdfs:label>TL_Time_Span</rdfs:label>
+    <rdfs:comment>Intervalo de tempo (início, fim, duração).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Property"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Dimension">
+    <rdfs:label>TL_Dimension</rdfs:label>
+    <rdfs:comment>Dimensão mensurável (p.ex. distância, peso, tempo).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Property"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_SpaceTime_Volume">
+    <rdfs:label>TL_SpaceTime_Volume</rdfs:label>
+    <rdfs:comment>Volume espaço-temporal (ocupação de um processo no espaço e tempo).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Property"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Evaluation">
+    <rdfs:label>TL_Evaluation</rdfs:label>
+    <rdfs:comment>Avaliação ou escala (qualitativa ou quantitativa).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Property"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Status">
+    <rdfs:label>TL_Status</rdfs:label>
+    <rdfs:comment>Estado ou condição de uma entidade ou processo (operacional, degradado).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Property"/>
+  </owl:Class>
+
+    <!-- ============================== -->
+  <!-- TINILAU — Security (Classes)   -->
+  <!-- ============================== -->
+
+  <!-- Papel/entidade-alvo (físico, digital, informacional, humano) -->
+  <owl:Class rdf:about="&tinilau;TL_Target">
+    <rdfs:label>TL_Target</rdfs:label>
+    <rdfs:comment>Entidade que pode ser afetada por ameaça/ataque (papel conceitual de alvo).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Ameaça (intenção/possibilidade hostil) -->
+  <owl:Class rdf:about="&tinilau;TL_Threat">
+    <rdfs:label>TL_Threat</rdfs:label>
+    <rdfs:comment>Existência de intenção hostil ou possibilidade concreta de ataque.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Ataque (ação hostil concreta) -->
+  <owl:Class rdf:about="&tinilau;TL_Attack">
+    <rdfs:label>TL_Attack</rdfs:label>
+    <rdfs:comment>Ação maliciosa que visa comprometer/degradar ativos físicos ou digitais.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Event"/>
+  </owl:Class>
+
+  <!-- Ator/grupo malicioso -->
+  <owl:Class rdf:about="&tinilau;TL_Threat_Actor">
+    <rdfs:label>TL_Threat_Actor</rdfs:label>
+    <rdfs:comment>Agente malicioso ou grupo (intrusion set) envolvido em ameaças/ataques.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Agent"/>
+  </owl:Class>
+
+  <!-- Padrão/técnica (conceitual) -->
+  <owl:Class rdf:about="&tinilau;TL_Attack_Pattern">
+    <rdfs:label>TL_Attack_Pattern</rdfs:label>
+    <rdfs:comment>Padrão/técnica de ataque (conceito reutilizável; p.ex., ATT&amp;CK).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Event_Type"/>
+  </owl:Class>
+
+  <!-- Ferramenta de ataque (malware/toolkit/script) -->
+  <owl:Class rdf:about="&tinilau;TL_Attack_Tool">
+    <rdfs:label>TL_Attack_Tool</rdfs:label>
+    <rdfs:comment>Ferramenta empregada em ataques (malware, exploit, toolkit, script).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Software"/>
+  </owl:Class>
+
+  <!-- Ativo digital/infra TI (alvo típico) -->
+  <owl:Class rdf:about="&tinilau;TL_IT_System">
+    <rdfs:label>TL_IT_System</rdfs:label>
+    <rdfs:comment>Sistema/plataforma de TI (bordo ou terra) sujeito a ciberataques.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Artifact"/>
+  </owl:Class>
+
+  <!-- Vulnerabilidade (conceitual; inclui CVE, má configuração, fraqueza de processo) -->
+  <owl:Class rdf:about="&tinilau;TL_Vulnerability">
+    <rdfs:label>TL_Vulnerability</rdfs:label>
+    <rdfs:comment>Fraqueza explorável em sistemas, dispositivos ou processos.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+  </owl:Class>
+
+  <!-- Incidente cibernético (ocorrência concreta) -->
+  <owl:Class rdf:about="&tinilau;TL_Cyber_Incident">
+    <rdfs:label>TL_Cyber_Incident</rdfs:label>
+    <rdfs:comment>Ocorrência de segurança (intrusão, malware, DDoS, spoofing AIS, ransomware etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Event"/>
+  </owl:Class>
+
+  <!-- Impacto (segurança da informação) -->
+  <owl:Class rdf:about="&tinilau;TL_Security_Impact">
+    <rdfs:label>TL_Security_Impact</rdfs:label>
+    <rdfs:comment>Impacto em confidencialidade, integridade, disponibilidade e/ou privacidade.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Evaluation"/>
+  </owl:Class>
+
+  
+  <!-- SAFETY (não intencional) -->
+  <owl:Class rdf:about="&tinilau;TL_Safety_Event">
+    <rdfs:label>TL_Safety_Event</rdfs:label>
+    <rdfs:comment>
+      Evento de falha não intencional (erro humano, pane, acidente operacional).
+    </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Event"/>
+  </owl:Class>
+
+  <!-- Impacto (safety/operacional) -->
+  <owl:Class rdf:about="&tinilau;TL_Safety_Impact">
+    <rdfs:label>TL_Safety_Impact</rdfs:label>
+    <rdfs:comment>Impacto à segurança física/operacional (pessoas, embarcações, infraestrutura).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Evaluation"/>
+  </owl:Class>
+
+  <!-- Risco cibernético (avaliação preditiva) -->
+  <owl:Class rdf:about="&tinilau;TL_Cyber_Risk">
+    <rdfs:label>TL_Cyber_Risk</rdfs:label>
+    <rdfs:comment>Avaliação de risco combinando ameaça, vulnerabilidade e impacto potencial.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Evaluation"/>
+  </owl:Class>
+
+  <!-- Contramedida (curso de ação/procedimento) -->
+  <owl:Class rdf:about="&tinilau;TL_Countermeasure">
+    <rdfs:label>TL_Countermeasure</rdfs:label>
+    <rdfs:comment>Medida preventiva/detectiva/corretiva/dissuassória para reduzir risco/impacto.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Design_or_Procedure_Type"/>
+  </owl:Class>
+
+  <!-- ========================================== -->
+  <!-- TINILAU — Security (Somente Subclasses)    -->
+  <!-- ========================================== -->
+
+  <!-- ===== Targets (papéis de alvo) ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Physical_Target">
+    <rdfs:label>TL_Physical_Target</rdfs:label>
+    <rdfs:comment>Alvos físicos (ex.: embarcações, instalações portuárias).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Target"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Human_Target">
+    <rdfs:label>TL_Human_Target</rdfs:label>
+    <rdfs:comment>Alvos humanos (ex.: perfis profissionais portuários).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Target"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Informational_Target">
+    <rdfs:label>TL_Informational_Target</rdfs:label>
+    <rdfs:comment>Alvos informacionais (ex.: dados/mensagens AIS, relatórios).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Target"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_System_Target">
+    <rdfs:label>TL_System_Target</rdfs:label>
+    <rdfs:comment>Alvos de sistemas (ex.: VTS, TOS, infra de TI portuária).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Target"/>
+  </owl:Class>
+
+
+  <!-- ===== IT Systems (alvos típicos) ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Port_IT_System">
+    <rdfs:label>TL_Port_IT_System</rdfs:label>
+    <rdfs:comment>Sistemas de TI do porto (TOS, SOC, ERP/SCADA correlatos).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_IT_System"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_VTS_System">
+    <rdfs:label>TL_VTS_System</rdfs:label>
+    <rdfs:comment>Vessel Traffic Service (controle de tráfego de embarcações).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_IT_System"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_AIS_Infrastructure">
+    <rdfs:label>TL_AIS_Infrastructure</rdfs:label>
+    <rdfs:comment>Infraestrutura AIS (estações costeiras/serviços de processamento).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_IT_System"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Port_Community_System">
+  <rdfs:label>TL_Port_Community_System</rdfs:label>
+  <rdfs:comment>Plataforma PCS para troca documental/aduaneira e agendamento.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_IT_System"/>
+</owl:Class>
+
+<owl:Class rdf:about="&tinilau;TL_Terminal_Operating_System">
+  <rdfs:label>TL_Terminal_Operating_System</rdfs:label>
+  <rdfs:comment>Sistema de operação de terminal (planejamento, pátio, guindastes).</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&tinilau;TL_IT_System"/>
+</owl:Class>
+
+
+  <!-- ===== Vulnerabilities (tipos) ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Design_Weakness">
+    <rdfs:label>TL_Design_Weakness</rdfs:label>
+    <rdfs:comment>Fraqueza de projeto (ex.: sem segmentação de rede).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vulnerability"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Implementation_Weakness">
+    <rdfs:label>TL_Implementation_Weakness</rdfs:label>
+    <rdfs:comment>Fraqueza de implementação/código (bugs, validação deficiente).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vulnerability"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Configuration_Weakness">
+    <rdfs:label>TL_Configuration_Weakness</rdfs:label>
+    <rdfs:comment>Má configuração (portas expostas, credenciais fracas).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vulnerability"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Operational_Weakness">
+    <rdfs:label>TL_Operational_Weakness</rdfs:label>
+    <rdfs:comment>Fraqueza operacional/processual (procedimentos/treinamento).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vulnerability"/>
+  </owl:Class>
+
+  <!-- ===== Attack Pattern (exemplos) ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Ransomware">
+    <rdfs:label>TL_Ransomware</rdfs:label>
+    <rdfs:comment>Padrão/técnica de sequestro de dados/sistemas.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Phishing">
+    <rdfs:label>TL_Phishing</rdfs:label>
+    <rdfs:comment>Engenharia social para obtenção de acesso/dados.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_AIS_Spoofing">
+    <rdfs:label>TL_AIS_Spoofing</rdfs:label>
+    <rdfs:comment>Falsificação/manipulação de mensagens AIS.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_DDoS">
+    <rdfs:label>TL_DDoS</rdfs:label>
+    <rdfs:comment>Negação de serviço distribuída.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:Class>
+
+  <!-- ===== Attack GNSS (exemplos) ===== -->
+
+  <owl:Class rdf:about="&tinilau;TL_GNSS_Spoofing">
+    <rdfs:label>TL_GNSS_Spoofing</rdfs:label>
+    <rdfs:comment>Falsificação de sinal GNSS para deslocar posição/rota.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_GNSS_Jamming">
+    <rdfs:label>TL_GNSS_Jamming</rdfs:label>
+    <rdfs:comment>Bloqueio/interferência de GNSS.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_GNSS_Spoofing_Incident">
+    <rdfs:label>TL_GNSS_Spoofing_Incident</rdfs:label>
+    <rdfs:comment>Ocorrência concreta de spoofing GNSS em ativo/rota/porto.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_GNSS_Jamming_Incident">
+    <rdfs:label>TL_GNSS_Jamming_Incident</rdfs:label>
+    <rdfs:comment>Ocorrência concreta de jamming GNSS.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+</owl:Class>
+
+
+  <!-- ===== Macro-categorias táticas de ataque ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Initial_Access_Attack">
+    <rdfs:label>TL_Initial_Access_Attack</rdfs:label>
+    <rdfs:comment>Categoria tática de acesso inicial.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Execution_Control_Attack">
+    <rdfs:label>TL_Execution_Control_Attack</rdfs:label>
+    <rdfs:comment>Categoria tática de execução/controle.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Data_Exploitation_Attack">
+    <rdfs:label>TL_Data_Exploitation_Attack</rdfs:label>
+    <rdfs:comment>Categoria tática de exploração/exfiltração de dados.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Impact_Disruption_Attack">
+    <rdfs:label>TL_Impact_Disruption_Attack</rdfs:label>
+    <rdfs:comment>Categoria tática de impacto/disrupção (ex.: DDoS, ransomware).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Attack"/>
+  </owl:Class>
+
+  <!-- ===== Incidentes concretos ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Unauthorized_Access">
+    <rdfs:label>TL_Unauthorized_Access</rdfs:label>
+    <rdfs:comment>Incidente de acesso não autorizado.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Malware_Infection">
+    <rdfs:label>TL_Malware_Infection</rdfs:label>
+    <rdfs:comment>Incidente de infecção por malware.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Service_Disruption">
+    <rdfs:label>TL_Service_Disruption</rdfs:label>
+    <rdfs:comment>Incidente de indisponibilidade/degradação de serviço.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Data_Loss_Theft">
+    <rdfs:label>TL_Data_Loss_Theft</rdfs:label>
+    <rdfs:comment>Incidente de perda ou roubo de dados.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Data_Manipulation_Tampering">
+    <rdfs:label>TL_Data_Manipulation_Tampering</rdfs:label>
+    <rdfs:comment>Incidente de manipulação/violação de integridade de dados.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_AIS_Spoofing_Incident">
+    <rdfs:label>TL_AIS_Spoofing_Incident</rdfs:label>
+    <rdfs:comment>Ocorrência concreta de spoofing em AIS.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Ransomware_Incident">
+    <rdfs:label>TL_Ransomware_Incident</rdfs:label>
+    <rdfs:comment>Ocorrência concreta de ransomware.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Phishing_Incident">
+    <rdfs:label>TL_Phishing_Incident</rdfs:label>
+    <rdfs:comment>Ocorrência concreta de phishing.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:Class>
+
+  <!-- ===== Contramedidas (funções) ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Preventive_Countermeasure">
+    <rdfs:label>TL_Preventive_Countermeasure</rdfs:label>
+    <rdfs:comment>Medida preventiva (segmentação, hardening, etc.).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Countermeasure"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Detective_Countermeasure">
+    <rdfs:label>TL_Detective_Countermeasure</rdfs:label>
+    <rdfs:comment>Medida detectiva (monitoração, correlação, auditoria).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Countermeasure"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Corrective_Countermeasure">
+    <rdfs:label>TL_Corrective_Countermeasure</rdfs:label>
+    <rdfs:comment>Medida corretiva (patch, recuperação, restauração).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Countermeasure"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Deterrent_Countermeasure">
+    <rdfs:label>TL_Deterrent_Countermeasure</rdfs:label>
+    <rdfs:comment>Medida dissuassória (awareness, sanções/contratos).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Countermeasure"/>
+  </owl:Class>
+
+  <!-- ===== Risco cibernético (dimensões) ===== -->
+  <owl:Class rdf:about="&tinilau;TL_Security_Cyber_Risk">
+    <rdfs:label>TL_Security_Cyber_Risk</rdfs:label>
+    <rdfs:comment>Risco cibernético de segurança da informação (CIA/privacidade).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Risk"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Safety_Cyber_Risk">
+    <rdfs:label>TL_Safety_Cyber_Risk</rdfs:label>
+    <rdfs:comment>Risco cibernético com efeito safety/operacional.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Cyber_Risk"/>
+  </owl:Class>
+
+  <!-- ============================= -->
+  <!-- MASS — classes e subclasses  -->
+  <!-- ============================= -->
+
+  <!-- Embarcação -->
+  <owl:Class rdf:about="&tinilau;TL_Autonomous_Vessel">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Vessel"/>
+    <rdfs:label>TL_Autonomous_Vessel</rdfs:label>
+  </owl:Class>
+
+  <!-- Evento de navegação autônoma -->
+  <owl:Class rdf:about="&tinilau;TL_Autonomous_Navigation_Event">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Event"/>
+    <rdfs:label>TL_Autonomous_Navigation_Event</rdfs:label>
+  </owl:Class>
+
+  <!-- Centros em terra para autonomia -->
+  <owl:Class rdf:about="&tinilau;TL_Shore_Control_Center">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Artifact"/>
+    <rdfs:label>TL_Shore_Control_Center</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Operations_Center">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Artifact"/>
+    <rdfs:label>TL_Autonomy_Operations_Center</rdfs:label>
+  </owl:Class>
+
+  <!-- Função de dispositivo (perfil funcional a bordo) -->
+  <owl:Class rdf:about="&tinilau;TL_Device_Function">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+    <rdfs:label>TL_Device_Function</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Perception_Function">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Device_Function"/>
+    <rdfs:label>TL_Perception_Function</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Decision_Function">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Device_Function"/>
+    <rdfs:label>TL_Decision_Function</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Actuation_Function">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Device_Function"/>
+    <rdfs:label>TL_Actuation_Function</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Safety_Function">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Device_Function"/>
+    <rdfs:label>TL_Safety_Function</rdfs:label>
+  </owl:Class>
+
+  <!-- Níveis de autonomia (vocabulário) -->
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Level">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Property_Type"/>
+    <rdfs:label>TL_Autonomy_Level</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Level_0">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Autonomy_Level"/>
+    <rdfs:label>TL_Autonomy_Level_0</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Level_1">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Autonomy_Level"/>
+    <rdfs:label>TL_Autonomy_Level_1</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Level_2">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Autonomy_Level"/>
+    <rdfs:label>TL_Autonomy_Level_2</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Level_3">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Autonomy_Level"/>
+    <rdfs:label>TL_Autonomy_Level_3</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Level_4">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Autonomy_Level"/>
+    <rdfs:label>TL_Autonomy_Level_4</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Level_5">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Autonomy_Level"/>
+    <rdfs:label>TL_Autonomy_Level_5</rdfs:label>
+  </owl:Class>
+
+  <!-- Modos de supervisão -->
+  <owl:Class rdf:about="&tinilau;TL_Supervision_Mode">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+    <rdfs:label>TL_Supervision_Mode</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Shore_Based_Supervision">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Supervision_Mode"/>
+    <rdfs:label>TL_Shore_Based_Supervision</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Onboard_Supervision">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Supervision_Mode"/>
+    <rdfs:label>TL_Onboard_Supervision</rdfs:label>
+  </owl:Class>
+
+  <!-- Resultado/estado de missão -->
+  <owl:Class rdf:about="&tinilau;TL_Mission_Outcome">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Evaluation"/>
+    <rdfs:label>TL_Mission_Outcome</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Successful_Mission">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Mission_Outcome"/>
+    <rdfs:label>TL_Successful_Mission</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Degraded_Mission">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Mission_Outcome"/>
+    <rdfs:label>TL_Degraded_Mission</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Aborted_Mission">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Mission_Outcome"/>
+    <rdfs:label>TL_Aborted_Mission</rdfs:label>
+  </owl:Class>
+
+  <!-- Perfis humanos específicos de autonomia -->
+  <owl:Class rdf:about="&tinilau;TL_Remote_Operator">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Person"/>
+    <rdfs:label>TL_Remote_Operator</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Supervisor">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Person"/>
+    <rdfs:label>TL_Autonomy_Supervisor</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="&tinilau;TL_Maritime_CyberSecurity_Officer">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Person"/>
+    <rdfs:label>TL_Maritime_CyberSecurity_Officer</rdfs:label>
+  </owl:Class>
+
+  <!-- Indicador de conformidade de autonomia -->
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Compliance_Indicator">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Evaluation"/>
+    <rdfs:label>TL_Autonomy_Compliance_Indicator</rdfs:label>
+  </owl:Class>
+
+  <!-- Software relacionado à autonomia -->
+  <owl:Class rdf:about="&tinilau;TL_Autonomy_Software">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Software"/>
+    <rdfs:label>TL_Autonomy_Software</rdfs:label>
+  </owl:Class>
+
+  <!-- ============================= -->
+  <!-- MASS — condições ambientais  -->
+  <!-- ============================= -->
+
+  <!-- Condição meteorológica/ambiental geral -->
+  <owl:Class rdf:about="&tinilau;TL_Weather_Condition">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Conceptual_Object_Type"/>
+    <rdfs:label>TL_Weather_Condition</rdfs:label>
+  </owl:Class>
+
+  <!-- Condição específica de visibilidade -->
+  <owl:Class rdf:about="&tinilau;TL_Visibility_Condition">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Weather_Condition"/>
+    <rdfs:label>TL_Visibility_Condition</rdfs:label>
+  </owl:Class>
+
+  <!-- Visibilidade reduzida (usada nos CQs/MASS) -->
+  <owl:Class rdf:about="&tinilau;TL_Low_Visibility">
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Visibility_Condition"/>
+    <rdfs:label>TL_Low_Visibility</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Sea_State_Condition">
+    <rdfs:label>TL_Sea_State_Condition</rdfs:label>
+    <rdfs:comment>Condição de estado do mar (ex.: Beaufort/onda significativa).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Weather_Condition"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_High_Sea_State">
+    <rdfs:label>TL_High_Sea_State</rdfs:label>
+    <rdfs:comment>Estado do mar elevado (limiares definidos pela operação).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Sea_State_Condition"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Communication_Function">
+    <rdfs:label>TL_Communication_Function</rdfs:label>
+    <rdfs:comment>Função de comunicação/ligação (terra–bordo/satcom/V2X).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Device_Function"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Wind_Condition">
+    <rdfs:label>TL_Wind_Condition</rdfs:label>
+    <rdfs:comment>Condição de vento (direção/intensidade).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Weather_Condition"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Strong_Wind">
+    <rdfs:label>TL_Strong_Wind</rdfs:label>
+    <rdfs:comment>Vento forte (acima de limiar operacional).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Wind_Condition"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Current_Condition">
+    <rdfs:label>TL_Current_Condition</rdfs:label>
+    <rdfs:comment>Condição de corrente (intensidade/direção).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Weather_Condition"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="&tinilau;TL_Precipitation_Condition">
+    <rdfs:label>TL_Precipitation_Condition</rdfs:label>
+    <rdfs:comment>Condição de precipitação (chuva/chuvisco/temporal).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="&tinilau;TL_Weather_Condition"/>
+  </owl:Class>
+
+  <!-- ===================== -->
+  <!-- Disjointness axioms   -->
+  <!-- ===================== -->
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <rdf:Description rdf:about="&tinilau;TL_PhysicalEntity"/>
+      <rdf:Description rdf:about="&tinilau;TL_Process"/>
+      <rdf:Description rdf:about="&tinilau;TL_InformationResource"/>
+      <rdf:Description rdf:about="&tinilau;TL_Property"/>
+      <rdf:Description rdf:about="&tinilau;TL_ConceptualType"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
+
+  <!-- ===================== -->
+  <!-- Disjointness: Physical branches -->
+  <!-- ===================== -->
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <rdf:Description rdf:about="&tinilau;TL_Place"/>
+      <rdf:Description rdf:about="&tinilau;TL_Physical_Object"/>
+      <rdf:Description rdf:about="&tinilau;TL_Amount_of_Matter"/>
+      <rdf:Description rdf:about="&tinilau;TL_Agent"/>
+      <rdf:Description rdf:about="&tinilau;TL_Ecosystem"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
+
+  <!-- Disjointness: living vs non-living (object level) -->
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <rdf:Description rdf:about="&tinilau;TL_Biological_Object"/>
+      <rdf:Description rdf:about="&tinilau;TL_Abiotic_Element"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
+  
+
+  <!-- Ataque: separar padrão (conceitual), ataque (evento) e incidente (evento concreto) -->
+  <!--<owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <rdf:Description rdf:about="&tinilau;TL_Attack_Pattern"/>
+      <rdf:Description rdf:about="&tinilau;TL_Attack"/>
+      <rdf:Description rdf:about="&tinilau;TL_Cyber_Incident"/>
+    </owl:members>
+  </owl:AllDisjointClasses>-->
+
+
+  <!-- OBJECT PROPERTIES -->
+  <owl:ObjectProperty rdf:about="&tinilau;partOf">
+    <rdfs:label>partOf</rdfs:label>
+    <rdfs:comment>Relação parte–todo entre entidades físicas.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PhysicalEntity"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_PhysicalEntity"/>
+    <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasPart">
+    <rdfs:label>hasPart</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;partOf"/>
+    <rdfs:domain rdf:resource="&tinilau;TL_PhysicalEntity"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:ObjectProperty>
+
+  <!-- Localização de objetos -->
+  <owl:ObjectProperty rdf:about="&tinilau;locatedIn">
+    <rdfs:label>locatedIn</rdfs:label>
+    <rdfs:comment>Objeto físico localizado em um lugar.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PhysicalEntity"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Place"/>
+    <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+  </owl:ObjectProperty>
+
+  <!-- Local de ocorrência de processos -->
+  <owl:ObjectProperty rdf:about="&tinilau;occursAt">
+    <rdfs:label>occursAt</rdfs:label>
+    <rdfs:comment>Processo/Evento que ocorre em um lugar.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Process"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Place"/>
+  </owl:ObjectProperty>
+
+  <!-- Processo tem participante -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasParticipant">
+    <rdfs:label>hasParticipant</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Process"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;participatesIn">
+    <rdfs:label>participatesIn</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;hasParticipant"/>
+    <rdfs:domain rdf:resource="&tinilau;TL_PhysicalEntity"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Process"/>
+  </owl:ObjectProperty>
+
+  <!-- TEMPORAL EXTENT -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasTimeSpan">
+    <rdfs:label>hasTimeSpan</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Process"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Time_Span"/>
+  </owl:ObjectProperty>
+
+  <!-- GEOMETRY BINDING -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasGeometry">
+    <rdfs:label>hasGeometry</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Place"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Geometric_Place_Expression"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasCRS">
+    <rdfs:label>hasCRS</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Geometric_Place_Expression"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Spatial_CRS"/>
+  </owl:ObjectProperty>
+
+  <!-- APPELLATIONS -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasAppellation">
+    <rdfs:label>hasAppellation</rdfs:label>
+    <rdfs:domain rdf:resource="&owl;Thing"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Appellation"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasTitle">
+    <rdfs:label>hasTitle</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasAppellation"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Title"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasIdentifier">
+    <rdfs:label>hasIdentifier</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasAppellation"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Identifier"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasPlaceName">
+    <rdfs:label>hasPlaceName</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasAppellation"/>
+    <rdfs:domain rdf:resource="&tinilau;TL_Place"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Place_Name"/>
+  </owl:ObjectProperty>
+
+
+  <!-- SPECIMEN RELATIONS -->
+  <owl:ObjectProperty rdf:about="&tinilau;specimenOf">
+    <rdfs:label>specimenOf</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Specimen"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Biological_Object"/>
+    <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasSpecimen">
+    <rdfs:label>hasSpecimen</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;specimenOf"/>
+    <rdfs:domain rdf:resource="&tinilau;TL_Biological_Object"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Specimen"/>
+  </owl:ObjectProperty>
+
+
+  <!-- SECURITY: TARGETING -->
+  <!-- SECURITY: CANONICAL TARGET -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasTarget">
+    <rdfs:label>hasTarget</rdfs:label>
+    <rdfs:comment>Relates an Attack or Cyber Incident to its Target role.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Attack"/>
+          <rdf:Description rdf:about="&tinilau;TL_Cyber_Incident"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Target"/>
+  </owl:ObjectProperty>
+
+  <!-- SECURITY: TARGETING (ajustar a propriedade antiga) -->
+  <owl:ObjectProperty rdf:about="&tinilau;targets">
+    <rdfs:label>targets</rdfs:label>
+    <rdfs:comment>Alias legacy: subproperty of hasTarget for backward compatibility.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasTarget"/>
+    <!-- opcional: descomente para deprecar formalmente
+    <owl:deprecated rdf:datatype="&xsd;boolean">true</owl:deprecated>
+    -->
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Attack"/>
+          <rdf:Description rdf:about="&tinilau;TL_Cyber_Incident"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Target"/>
+  </owl:ObjectProperty>
+
+  <!-- SECURITY: EXPLOIT -->
+  <owl:ObjectProperty rdf:about="&tinilau;exploits">
+    <rdfs:label>exploits</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Attack"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Vulnerability"/>
+  </owl:ObjectProperty>
+
+  <!-- MASS: DEVICE ↔ FUNCTION -->
+  <owl:ObjectProperty rdf:about="&tinilau;implementsFunction">
+    <rdfs:label>implementsFunction</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Digital_Device"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Device_Function"/>
+  </owl:ObjectProperty>
+
+  <!-- SECURITY: ATTACK PATTERN LINK -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasAttackPattern">
+    <rdfs:label>hasAttackPattern</rdfs:label>
+    <rdfs:comment>Links an Attack or Cyber Incident to the abstract Attack Pattern it instantiates/follows.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Attack"/>
+          <rdf:Description rdf:about="&tinilau;TL_Cyber_Incident"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Attack_Pattern"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;causedSafetyEvent">
+    <rdfs:label>causedSafetyEvent</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Cyber_Incident"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Safety_Event"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;triggeredBySafetyEvent">
+    <rdfs:label>triggeredBySafetyEvent</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Cyber_Incident"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Safety_Event"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasSafetyImpact">
+    <rdfs:label>hasSafetyImpact</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Event"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Safety_Impact"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasSecurityImpact">
+    <rdfs:label>hasSecurityImpact</rdfs:label>
+    <rdfs:domain rdf:resource="&tinilau;TL_Event"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Security_Impact"/>
+  </owl:ObjectProperty>
+
+
+  <!-- SECURITY: TOOL USAGE -->
+  <owl:ObjectProperty rdf:about="&tinilau;usesTool">
+    <rdfs:label>usesTool</rdfs:label>
+    <rdfs:comment>Attack or Cyber Incident uses a concrete tool (malware/exploit/toolkit/script).</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Attack"/>
+          <rdf:Description rdf:about="&tinilau;TL_Cyber_Incident"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Attack_Tool"/>
+  </owl:ObjectProperty>
+
+  <!-- SECURITY: PERPETRATOR -->
+  <owl:ObjectProperty rdf:about="&tinilau;perpetratedBy">
+    <rdfs:label>perpetratedBy</rdfs:label>
+    <rdfs:comment>Attack or Cyber Incident perpetrated by a Threat Actor (individual or group).</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Attack"/>
+          <rdf:Description rdf:about="&tinilau;TL_Cyber_Incident"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Threat_Actor"/>
+  </owl:ObjectProperty>
+
+  <!-- SECURITY: MITIGATION -->
+  <owl:ObjectProperty rdf:about="&tinilau;mitigates">
+    <rdfs:label>mitigates</rdfs:label>
+    <rdfs:comment>Countermeasure mitigates (reduces likelihood/impact of) a Cyber Incident.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Countermeasure"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Cyber_Incident"/>
+  </owl:ObjectProperty>
+
+  <!-- SECURITY: IMPACT LINK -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasImpact">
+    <rdfs:label>hasImpact</rdfs:label>
+    <rdfs:comment>Cyber Incident has an impact (security/safety) assessment.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Cyber_Incident"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Evaluation"/>
+  </owl:ObjectProperty>
+
+
+  <!-- ============================= -->
+  <!-- MASS — Object Properties     -->
+  <!-- ============================= -->
+
+  <!-- VESSEL / EVENT → AUTONOMY LEVEL -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasAutonomyLevel">
+    <rdfs:label>hasAutonomyLevel</rdfs:label>
+    <rdfs:comment>Assigns an Autonomy Level to a Vessel or to a specific Navigation Event.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Autonomous_Vessel"/>
+          <rdf:Description rdf:about="&tinilau;TL_Autonomous_Navigation_Event"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Autonomy_Level"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isAutonomyLevelOf">
+    <rdfs:label>isAutonomyLevelOf</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;hasAutonomyLevel"/>
+  </owl:ObjectProperty>
+
+  <!-- VESSEL / EVENT → SUPERVISION MODE -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasSupervisionMode">
+    <rdfs:label>hasSupervisionMode</rdfs:label>
+    <rdfs:comment>Relates a Vessel or Navigation Event to its supervision mode (shore-based / onboard).</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Autonomous_Vessel"/>
+          <rdf:Description rdf:about="&tinilau;TL_Autonomous_Navigation_Event"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Supervision_Mode"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isSupervisionModeOf">
+    <rdfs:label>isSupervisionModeOf</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;hasSupervisionMode"/>
+  </owl:ObjectProperty>
+
+  <!-- EVENT → MISSION OUTCOME -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasMissionOutcome">
+    <rdfs:label>hasMissionOutcome</rdfs:label>
+    <rdfs:comment>Navigation Event outcome (successful/degraded/aborted).</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Autonomous_Navigation_Event"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Mission_Outcome"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isOutcomeOf">
+    <rdfs:label>isOutcomeOf</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;hasMissionOutcome"/>
+  </owl:ObjectProperty>
+
+
+  <!-- VESSEL / EVENT → HUMAN ROLE -->
+  <owl:ObjectProperty rdf:about="&tinilau;supervisedBy">
+    <rdfs:label>supervisedBy</rdfs:label>
+    <rdfs:comment>Relates a Vessel or Navigation Event to the human who supervises it.</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="&tinilau;TL_Autonomous_Vessel"/>
+          <rdf:Description rdf:about="&tinilau;TL_Autonomous_Navigation_Event"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="&tinilau;TL_Person"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isSupervisorOf">
+    <rdfs:label>isSupervisorOf</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;supervisedBy"/>
+  </owl:ObjectProperty>
+
+  <!-- papéis especializados ajudam em consultas por tipo -->
+  <owl:ObjectProperty rdf:about="&tinilau;operatedByRemoteOperator">
+    <rdfs:label>operatedByRemoteOperator</rdfs:label>
+    <rdfs:comment>Remote operator related to vessel or event.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;supervisedBy"/>
+    <rdfs:range rdf:resource="&tinilau;TL_Remote_Operator"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;supervisedByAutonomySupervisor">
+    <rdfs:label>supervisedByAutonomySupervisor</rdfs:label>
+    <rdfs:comment>Autonomy supervisor relation.</rdfs:comment>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;supervisedBy"/>
+    <rdfs:range rdf:resource="&tinilau;TL_Autonomy_Supervisor"/>
+  </owl:ObjectProperty>
+
+  <!-- VESSEL → DEVICE -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasDevice">
+    <rdfs:label>hasDevice</rdfs:label>
+    <rdfs:comment>Vessel carries/hosts a digital device.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_PhysicalEntity"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isDeviceOf">
+    <rdfs:label>isDeviceOf</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;hasDevice"/>
+  </owl:ObjectProperty>
+
+  <!-- VESSEL → FUNCTION (derivada via devices, mas útil para CQs diretas) -->
+  <owl:ObjectProperty rdf:about="&tinilau;supportsFunction">
+    <rdfs:label>supportsFunction</rdfs:label>
+    <rdfs:comment>Vessel supports a function (often via onboard devices/software).</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Autonomous_Vessel"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Device_Function"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isFunctionSupportedBy">
+    <rdfs:label>isFunctionSupportedBy</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;supportsFunction"/>
+  </owl:ObjectProperty>
+
+  <!-- DEVICE ↔ FUNCTION (você já tem implementsFunction no device) -->
+  <owl:ObjectProperty rdf:about="&tinilau;isFunctionImplementedBy">
+    <rdfs:label>isFunctionImplementedBy</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;implementsFunction"/>
+  </owl:ObjectProperty>
+
+  <!-- VESSEL → AUTONOMY SOFTWARE -->
+  <owl:ObjectProperty rdf:about="&tinilau;usesAutonomySoftware">
+    <rdfs:label>usesAutonomySoftware</rdfs:label>
+    <rdfs:comment>Vessel uses/hosts a piece of autonomy-related software.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Autonomous_Vessel"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Autonomy_Software"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isAutonomySoftwareUsedBy">
+    <rdfs:label>isAutonomySoftwareUsedBy</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;usesAutonomySoftware"/>
+  </owl:ObjectProperty>
+
+  <!-- EVENT → ENVIRONMENTAL CONDITION (genérica) -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasEnvironmentalCondition">
+    <rdfs:label>hasEnvironmentalCondition</rdfs:label>
+    <rdfs:comment>Relates a navigation event to contextual weather/sea conditions.</rdfs:comment>
+    <rdfs:domain rdf:resource="&tinilau;TL_Autonomous_Navigation_Event"/>
+    <rdfs:range  rdf:resource="&tinilau;TL_Weather_Condition"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;isEnvironmentalConditionOf">
+    <rdfs:label>isEnvironmentalConditionOf</rdfs:label>
+    <owl:inverseOf rdf:resource="&tinilau;hasEnvironmentalCondition"/>
+  </owl:ObjectProperty>
+
+  <!-- Especializações úteis para filtros em CQs -->
+  <owl:ObjectProperty rdf:about="&tinilau;hasVisibilityCondition">
+    <rdfs:label>hasVisibilityCondition</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasEnvironmentalCondition"/>
+    <rdfs:range rdf:resource="&tinilau;TL_Visibility_Condition"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasSeaStateCondition">
+    <rdfs:label>hasSeaStateCondition</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasEnvironmentalCondition"/>
+    <rdfs:range rdf:resource="&tinilau;TL_Sea_State_Condition"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasWindCondition">
+    <rdfs:label>hasWindCondition</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasEnvironmentalCondition"/>
+    <rdfs:range rdf:resource="&tinilau;TL_Wind_Condition"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasCurrentCondition">
+    <rdfs:label>hasCurrentCondition</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasEnvironmentalCondition"/>
+    <rdfs:range rdf:resource="&tinilau;TL_Current_Condition"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&tinilau;hasPrecipitationCondition">
+    <rdfs:label>hasPrecipitationCondition</rdfs:label>
+    <rdfs:subPropertyOf rdf:resource="&tinilau;hasEnvironmentalCondition"/>
+    <rdfs:range rdf:resource="&tinilau;TL_Precipitation_Condition"/>
+  </owl:ObjectProperty>
+
+  <!-- MITRE ATT&CK Techniques -->
+
+  <owl:NamedIndividual rdf:about="&tinilau;Incident_Port_Santos_2025">
+    <rdf:type rdf:resource="&tinilau;TL_Ransomware_Incident"/>
+    <tinilau:hasAttackPattern rdf:resource="https://attack.mitre.org/techniques/T1486/"/>
+    <tinilau:usesTool rdf:resource="https://cti.example.com/stix/malware--wannacry"/>
+    <tinilau:perpetratedBy rdf:resource="https://cti.example.com/stix/identity--apt28"/>
+  </owl:NamedIndividual>
+
+
+
+
+</rdf:RDF>
