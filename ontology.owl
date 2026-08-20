@@ -58,10 +58,10 @@
     <dcterms:modified rdf:datatype="&xsd;date">2025-10-08</dcterms:modified>
 
     <!-- Autores/Instituição -->
-    <dcterms:creator>Equipe TINILAU</dcterms:creator>
-    <dcterms:creator>Isadora Garcia Ferrão </dcterms:creator>
-    <dcterms:creator>David Espes </dcterms:creator>
-    <dcterms:publisher>Université de Bretagne Occidentale</dcterms:publisher>
+    <dcterms:creator>...</dcterms:creator>
+    <dcterms:creator>... </dcterms:creator>
+    <dcterms:creator>... </dcterms:creator>
+    <dcterms:publisher>...</dcterms:publisher>
 
     <!-- Idiomas principais do conteúdo/rotulagem -->
     <dcterms:language>en</dcterms:language>
