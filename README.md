@@ -1,5 +1,6 @@
 # Repository notice
-This anonymous repository was created to support the submission of the paper “Neuro-Symbolic Cross-Attention over Heterogeneous Spatio-Temporal Graphs for Adversarial Identity Detection” to the International Conference on Availability, Reliability and Security (ARES).
+This anonymous repository was created to support the submission of the paper “Neuro-Symbolic Cross-Attention over Heterogeneous
+Spatio-Temporal Graphs for Identity Spoofing Detection in Cyber-Physical Systems” to the ASIACCS 27.
 
 Code and documentation availability
 
